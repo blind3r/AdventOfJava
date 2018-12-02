@@ -1,13 +1,15 @@
+import aoc.day1.Day1;
 import aoc.day1.Part1;
 import aoc.day1.Part2;
+import aoc.day2.Day2;
 
 public class RunIt {
 
     public static void main(String[] args) {
-        Part1 p1 = new Part1();
-        System.out.println("Solution to part 1 is:" + p1.solve(0));
+        Day1 day1 = new Day1();
+        day1.solve();
 
-        Part2 p2 = new Part2();
-        System.out.println("Solution to part 2 is:" + p2.solve());
+        Day2 day2 = new Day2();
+        day2.solve();
     }
 }
