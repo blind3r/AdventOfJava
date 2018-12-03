@@ -1,5 +1,6 @@
 package aoc.day3;
 
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,7 +15,7 @@ public class Day3 {
 
 	final static String FILE_NAME = "inputs/input_day3.txt";
 
-	static int[][] size = new int[1000][1000];
+	static int[][] matrix = new int[1000][1000];
 
 	public void solve() throws IOException {
 
@@ -31,26 +32,26 @@ public class Day3 {
 	private int partOne(List<String> inputString) {
 		Pattern numberPattern = Pattern.compile("\\d+");
 		for (String str : inputString) {
-			List<Integer> numbers = new ArrayList<>();
+			List<Integer> slots = new ArrayList<>();
 			Matcher numberMatcher = numberPattern.matcher(str);
 			while (numberMatcher.find()) {
-				numbers.add(Integer.parseInt(numberMatcher.group()));
+				slots.add(Integer.parseInt(numberMatcher.group()));
 			}
-			for (int i = numbers.get(1); i < numbers.get(1) + numbers.get(3); i++) {
-				for (int j = numbers.get(2); j < numbers.get(2) + numbers.get(4); j++) {
-					size[i][j] += 1;
+			for (int i = slots.get(1); i < slots.get(1) + slots.get(3); i++) {
+				for (int j = slots.get(2); j < slots.get(2) + slots.get(4); j++) {
+					matrix[i][j] += 1;
 				}
 			}
 		}
-		int duplicates = 0;
+		int overlaps = 0;
 		for (int i = 0; i < 1000; i++) {
 			for (int j = 0; j < 1000; j++) {
-				if (size[i][j] > 1) {
-					duplicates++;
+				if (matrix[i][j] > 1) {
+					overlaps++;
 				}
 			}
 		}
-		return duplicates;
+		return overlaps;
 	}
 
 	public Integer partTwo(List<String> inputString) throws IOException {
@@ -77,5 +78,29 @@ public class Day3 {
 		}
 
 		return null;
+	}
+	
+	@SuppressWarnings("serial")
+	class Claim extends Rectangle{
+		
+		int id;
+
+		public Claim(String claimString) {
+			super();
+			
+			final int idIndex = claimString.indexOf('#');
+			final int atIndex = claimString.indexOf('@');
+			final int colonIndex = claimString.indexOf(':');
+
+			id = Integer.valueOf(claimString.substring(idIndex + 1, atIndex - 1));
+
+			final String[] offsets = claimString.substring(atIndex + 2, colonIndex).split(",");
+			x = Integer.valueOf(offsets[0]);
+			y = Integer.valueOf(offsets[1]);
+
+			final String[] sizes = claimString.substring(colonIndex + 2).split("x");
+			width = Integer.valueOf(sizes[0]);
+			height = Integer.valueOf(sizes[1]);		
+		}
 	}
 }
